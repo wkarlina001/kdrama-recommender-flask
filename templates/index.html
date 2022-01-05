@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo App</title>
+</head>
+
+<center>
+    <body>
+        <h1>Korean Drama Recommendation Engine</h1>
+
+        <p>Select one of your <strong>favorite k-dramas</strong> from the dropdown</p>
+        <form action="{{ url_for('recommend') }}" method="POST">
+            <select name= "movie_list">
+                <option value="{{movie_list[0]}}" selected>{{movie_list[0]}}</option>
+                {% for movie in movie_list[1:] %}
+                    <option value= "{{movie}}">{{movie}}</option>"
+                {% endfor %}
+            </select><br><br>
+            <input type="submit" value ="Show Recommendations">
+        </form>
+
+    </body>
+</center>
+</html>
