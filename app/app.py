@@ -7,8 +7,6 @@ from PIL import Image
 app = Flask(__name__)
 movies = pickle.load(open('app/movie_list.pkl','rb'))
 similarity = pickle.load(open('app/similarity.pkl','rb'))
-img = Image.new("RGB", (800, 1280), (255, 255, 255))
-img.save("app/static/image.png", "PNG")
 
 @app.route("/", methods=['GET', 'POST'])
 def main():
@@ -27,7 +25,7 @@ def recommend():
         return render_template('index.html')
 
 def fetch_poster(title):
-    downloader.download("korean-drama-"+title, limit=1, output_dir='static', \
+    downloader.download("korean-drama-"+title, limit=1, output_dir='app/static', \
         adult_filter_off=True, force_replace=False, timeout=60, verbose=True)
     return 0
 
@@ -53,7 +51,9 @@ def make_recommendation(title):
             path = 'static/korean-drama-'+title+'/'+image
             movies_poster.append(path)
         except:
-            path = "static/image.png"
+            img = Image.new("RGB", (800, 1280), (255, 255, 255))
+            img.save("app/static/image.png", "PNG")
+            path = 'static/image.png'
             movies_poster.append(path)
 
     return similar_movies, movies_poster
