@@ -48,7 +48,7 @@ def make_recommendation(title):
         
         try:
             image = os.listdir('app/static/korean-drama-'+title)[0]
-            movies_poster.append('app/static/korean-drama-'+title+'/'+image)
+            movies_poster.append('static/korean-drama-'+title+'/'+image)
         except:
              movies_poster.append(Image.new("RGB", (800, 1280), (255, 255, 255)))
 
