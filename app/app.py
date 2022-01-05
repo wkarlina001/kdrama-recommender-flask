@@ -5,8 +5,8 @@ from bing_image_downloader import downloader
 from PIL import Image
 
 app = Flask(__name__)
-movies = pickle.load(open('movie_list.pkl','rb'))
-similarity = pickle.load(open('similarity.pkl','rb'))
+movies = pickle.load(open('app/movie_list.pkl','rb'))
+similarity = pickle.load(open('app/similarity.pkl','rb'))
 
 @app.route("/", methods=['GET', 'POST'])
 def main():
@@ -27,7 +27,7 @@ def recommend():
 def fetch_poster(title):
     downloader.download("korean-drama-"+title, limit=1, output_dir='static', \
         adult_filter_off=True, force_replace=False, timeout=60, verbose=True)
-    return 'static/korean-'+title
+    return 'app/static/korean-'+title
 
 def make_recommendation(title):
     movie_index = movies[movies.Drama_Name == title]["index"].values[0]
@@ -42,13 +42,13 @@ def make_recommendation(title):
         similar_movies.append(title)
         
         try:
-            os.listdir('static/korean-drama-'+title)
+            os.listdir('app/static/korean-drama-'+title)
         except:
             fetch_poster(title)
         
         try:
-            image = os.listdir('static/korean-drama-'+title)[0]
-            movies_poster.append('static/korean-drama-'+title+'/'+image)
+            image = os.listdir('app/static/korean-drama-'+title)[0]
+            movies_poster.append('app/static/korean-drama-'+title+'/'+image)
         except:
              movies_poster.append(Image.new("RGB", (800, 1280), (255, 255, 255)))
 
